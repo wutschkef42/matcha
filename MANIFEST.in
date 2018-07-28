@@ -1,0 +1,4 @@
+include matcha/schema.sql
+graft matcha/static
+graft matcha/templates
+global-exclude *.pyc
