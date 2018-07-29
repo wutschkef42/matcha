@@ -1,0 +1,12 @@
+
+{% extends 'base.html' %}
+
+
+	{% block title %}500{% endblock %}
+
+
+{% block content %}
+	<h1>500</h1>
+	<p>Server error!</p>
+	<p><em>Return <a href="{{url_for('index')}}">Home</a>?</em></p>
+{% endblock %}

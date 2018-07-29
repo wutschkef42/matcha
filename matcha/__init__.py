@@ -1,7 +1,7 @@
 
 
 import os
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app(test_config=None):
 	#create and configure the app
@@ -22,7 +22,7 @@ def create_app(test_config=None):
 
 	@matcha.route('/')
 	def hello():
-		return 'hello world!'
+		return 'hello world'
 
 	from . import db
 	db.init_app(matcha)
@@ -35,5 +35,24 @@ def create_app(test_config=None):
 	from . import profile
 	matcha.register_blueprint(profile.bp)
 
+	
+	########################
+	#### error handlers ####
+	########################
 
+	@matcha.errorhandler(403)
+	def forbidden_page(error):
+	    return render_template("errors/403.html"), 403
+
+
+	@matcha.errorhandler(404)
+	def page_not_found(error):
+	    return render_template("errors/404.html"), 404
+
+
+	@matcha.errorhandler(500)
+	def server_error_page(error):
+	    return render_template("errors/500.html"), 500
+	
 	return matcha
+
