@@ -13,5 +13,7 @@ CREATE TABLE user(
 	sexual_pref TEXT,
 	biography TEXT,
 	interest_tags TEXT,
-	profile_pic TEXT
+	registered_on DATETIME NOT NULL,
+	admin BOOLEAN NOT NULL DEFAULT FALSE,
+	confirmed BOOLEAN NOT NULL DEFAULT FALSE,
 );

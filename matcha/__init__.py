@@ -27,10 +27,13 @@ def create_app(test_config=None):
 	from . import db
 	db.init_app(matcha)
 
+	matcha.add_url_rule('/', endpoint='index')
+
 	from . import auth
 	matcha.register_blueprint(auth.bp)
-
-	matcha.add_url_rule('/', endpoint='index')
+	
+	from . import profile
+	matcha.register_blueprint(profile.bp)
 
 
 	return matcha
