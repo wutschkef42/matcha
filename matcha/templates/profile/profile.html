@@ -2,9 +2,14 @@
 {% extends 'base.html' %}
 
 {% block header %}
-	<h1> Hello, {{ user['username'] }}</h1>
+	<h1>Hello, {{ user['username'] }}</h1>
 {% endblock %}
 
-
+{% block content %}
+	<p>upload them images boayyy</p>
+	<a href="{{ url_for('profile.upload_image') }}">click</a>
+	
+	
+{% endblock %}
 
 
