@@ -2,9 +2,10 @@
 
 import sqlite3
 import click
+import datetime
 from flask		import current_app, g
 from flask.cli	import with_appcontext
-
+from werkzeug.security import generate_password_hash
 
 # get database descriptor from app config 
 def get_db():
@@ -41,6 +42,20 @@ def init_db_command():
 	click.echo('Initialized the database.')
 
 
+@click.command('make-admin')
+@with_appcontext
+def make_admin_command():
+	'''Insert default admin user into user table'''
+	db = get_db()
+	db.execute(
+		'INSERT INTO user (username, password, email, last_name, first_name, registered_on, admin, confirmed)'
+		' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+		('admin', generate_password_hash('admin'), 'ad@min.com', 'admin', 'admin', datetime.datetime.now(), True, True)
+	)
+	db.commit()
+
+
 def init_app(app):
 	app.teardown_appcontext(close_db)
 	app.cli.add_command(init_db_command)
+	app.cli.add_command(make_admin_command)

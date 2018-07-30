@@ -1,21 +1,21 @@
 
 
+from flask import current_app
 from itsdangerous import URLSafeTimedSerializer
 
-from matcha import matcha
 
 
 def generate_confirmation_token(email):
-    serializer = URLSafeTimedSerializer(matcha.config['SECRET_KEY'])
-    return serializer.dumps(email, salt=matcha.config['SECURITY_PASSWORD_SALT'])
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    return serializer.dumps(email, salt=current_app.config['SECURITY_PASSWORD_SALT'])
 
 
 def confirm_token(token, expiration=3600):
-    serializer = URLSafeTimedSerializer(matcha.config['SECRET_KEY'])
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
     try:
         email = serializer.loads(
             token,
-            salt=matcha.config['SECURITY_PASSWORD_SALT'],
+            salt=current_app.config['SECURITY_PASSWORD_SALT'],
             max_age=expiration
         )
     except:
