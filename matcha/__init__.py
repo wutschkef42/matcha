@@ -8,23 +8,11 @@ def create_app(test_config=None):
 	matcha = Flask(__name__, instance_relative_config=True)
 	matcha.config.from_mapping(
 		SECRET_KEY='dev',
-		SECURITY_PASSWORD_SALT = 'my_precious_two',
+		SECURITY_PASSWORD_SALT='my_precious_two',
 		DATABASE=os.path.join(matcha.instance_path, 'matcha.sqlite'),
-		MAIL_SERVER = 'smtp.googlemail.com',
-		MAIL_PORT = 465,
-		MAIL_USE_TLS = False,
-		MAIL_USE_SSL = True,
-		MAIL_USERNAME = 'imadummyyooo',
-		MAIL_PASSWORD = 'dummydummy',
-		MAIL_DEFAULT_SENDER = 'Rick James'
-
 	)
-
-	if (test_config) is None:
-		matcha.config.from_pyfile('config.py', silent=True)
-	else:
-		matcha.config.from_mapping(test_config)
-
+	matcha.config.from_pyfile('config.py', silent=True)
+	
 	try:
 		os.makedirs(matcha.instance_path)
 	except OSError:
