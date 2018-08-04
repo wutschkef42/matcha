@@ -1,7 +1,7 @@
 
 from flask import current_app
 from flask_mail import Mail, Message
-from matcha import config
+
 
 
 

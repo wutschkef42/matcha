@@ -49,3 +49,35 @@ def upload_image():
 	return render_template('profile/upload_image.html')
 
 
+
+
+@bp.route('/<username>/update_information', methods=('GET', 'POST'))
+def update_information(username):
+	db = get_db()
+	user = db.execute(
+		'SELECT * FROM user WHERE user.username = ?', (username,)
+	).fetchone()
+	if request.method == 'POST':
+		last_name = request.form['last_name']
+		first_name = request.form['first_name']
+		email = request.form['email']
+		gender = request.form['gender']
+		sexual_pref = request.form['sex_pref']
+		bio = request.form['bio']
+		tags = request.form['tags']
+
+		db.execute(
+			'UPDATE user'
+			' SET last_name = ?,'
+			' first_name = ?,'
+			' email = ?,'
+			' gender = ?,'
+			' sexual_pref = ?,'
+			' biography = ?,'
+			' interest_tags = ?'
+			' WHERE username = ?',
+			(last_name, first_name, email, gender, sexual_pref, bio, tags, username,)
+		)
+		db.commit()
+		
+	return render_template('profile/update_information.html', user=user)

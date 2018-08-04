@@ -7,7 +7,19 @@
 
 {% block content %}
 	<p>upload them images boayyy</p>
-	<a href="{{ url_for('profile.upload_image') }}">click</a>
+	<a href="{{ url_for('profile.upload_image') }}">Add images</a><br />
+	<a href="{{ url_for('profile.update_information', username=user['username']) }}">Update information</a>
+	<h2>Public Information</h2>
+	<p>{{ user['first_name'] + " " + user['last_name'] }}</p>
+	<p>Email: {{ user['email'] }}</p>
+	<p>Gender: {{ user['gender'] }}</p>
+	<p>I like: {{ user['sexual_pref'] }}</p>
+	<h3>Biography</h3>
+	<p>{{ user['biography'] }}</p>
+	<h3>Interests</h3>
+	<p>{{ user['interest_tags'] }}</p>
+
+
 	
 	
 {% endblock %}
