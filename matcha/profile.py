@@ -22,16 +22,20 @@ def profile(username):
 	user = db.execute(
 		'SELECT * FROM user WHERE user.username = ?', (username,)
 	).fetchone()
+	images = db.execute(
+		'SELECT * FROM image WHERE image.profile_id = ?', (user['id'],)
+	).fetchall()
 	if user is None:
 		error = 'User doesn\'t exist'
 	if error is not None:
 		flash(error)
-	return render_template('profile/profile.html', user=user)
+	return render_template('profile/profile.html', user=user, images=images)
 
 
-@bp.route('/upload_image', methods=('GET', 'POST'))
-def upload_image():
+@bp.route('/<username>/upload_image', methods=('GET', 'POST'))
+def upload_image(username):
 	if request.method == 'POST':
+		db = get_db()
 		if 'file' not in request.files:
 			flash('No file part')
 			return redirect(request.url)
@@ -44,7 +48,15 @@ def upload_image():
 		if file:
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-			return redirect(url_for('index'))
+			user = db.execute(
+				'SELECT * FROM user WHERE user.username = ?', (username,)
+			).fetchone()
+			db.execute(
+				'INSERT INTO image (profile_id, image_url, image_type)'
+				' VALUES (?, ?, ?)', (user['id'], filename, 'profile')
+			)
+			db.commit()
+			return redirect(url_for('profile.profile', user=user, username=user['username']))
 
 	return render_template('profile/upload_image.html')
 

@@ -10,7 +10,7 @@ def create_app(test_config=None):
 		SECRET_KEY='dev',
 		SECURITY_PASSWORD_SALT='my_precious_two',
 		DATABASE=os.path.join(matcha.instance_path, 'matcha.sqlite'),
-		UPLOAD_FOLDER=os.path.join(matcha.instance_path, 'images')
+		UPLOAD_FOLDER=os.path.join(matcha.root_path, 'static/images')
 	)
 	matcha.config.from_pyfile('config.py', silent=True)
 	
